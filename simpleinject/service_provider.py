@@ -3,9 +3,9 @@ from typing import *
 
 
 class ServiceWrapper(object):
-    def __init__(self, service_type):
+    def __init__(self, service_type: type, instance: object = None):
         self.service_type = service_type
-        self.instance: object = None
+        self.instance: object = instance
         self.dependencies: List[ServiceWrapper] = []
 
 
@@ -20,7 +20,7 @@ class CircularReferenceError(Exception):
 
 class ServiceWasNotRegistered(Exception):
     def __init__(self, service: Type):
-        super().__init__('{} was not registered with the service provider.'.format(service))
+        super().__init__('{} was not registered in the service provider.'.format(service))
 
 
 class ServicesManager(object):
@@ -28,6 +28,10 @@ class ServicesManager(object):
 
     def __init__(self):
         self.services: Dict[type, ServiceWrapper] = {}
+
+    def add_from_instance(self, instance: object):
+        instance_type = type(instance)
+        self.services[instance_type] = ServiceWrapper(instance_type, instance)
 
     def bind(self, interface: T, service_type: Type[T]) -> NoReturn:
         self.services[interface] = ServiceWrapper(service_type)
@@ -42,13 +46,17 @@ class ServicesManager(object):
 
         return services[interface].instance
 
-    def init_dependencies(self) -> NoReturn:
+    def initialize(self) -> NoReturn:
+        self._init_dependencies()
+        self._resolve_graph()
+
+    def _init_dependencies(self) -> NoReturn:
         for interface, service in self.services.items():
             for key, value in get_type_hints(interface.__init__).items():
                 if key != 'self' and key != 'args' and key != 'kwargs':
                     service.dependencies.append(self.services[value])
 
-    def resolve_graph(self) -> NoReturn:
+    def _resolve_graph(self) -> NoReturn:
         for srv_type, srv in self.services.items():
             srv.instance = Dummy()
             self._instanciate_object(srv)
