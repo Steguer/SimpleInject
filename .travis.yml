@@ -2,9 +2,6 @@ dist: xenial   # required for Python >= 3.7
 language: python
 python:
   - "3.7"
-  - "3.7-dev"  # 3.7 development branch
-  - "3.8-dev"  # 3.8 development branch
-  - "nightly"  # nightly build
 
 addons:
   sonarcloud:
@@ -17,7 +14,9 @@ script:
 
 deploy:
   provider: pypi
-  user: "Steguer"
+  user: "__token__"
   password:
-    secure: "J7bhygB+xQCGW6T5Hjbho9EWBQD8kt0bPfKjgQsS/Lc9MV1JswlYWJJb4gWYWTbIcXvVFOmb0a69aKjefUM3JQlWhRhE5qykOoleat74aitLVW4h9IMXA4ZVU+8O6cdnuTkppNYvcQgKpvb8BK352NRWjTHuq5pb9O7UI0XWVxRwUPMmdfnBmkppKWPKccXErx5B8yo7alYPGGNOUwmMtYACLPqCmMV0asbbVNa9K0Ip0QKx0gg3SexIrNYu+Z0JBHOeKnmOqnvLpzGMk42aBD8bgLShrxyqOxVU45Muiny+5j/1vx6nCGw0kUff5LlICm+P7DF8qCQkkSwMDb5AF1YBgjg6OmjuNAab45FOmuBHB2jmwBLYPOLSel7rK9Rp/VQRXwzJGmaSey2WhFTIlW/4dn5NHm9m5NwO8y/0+Q1lMSiDarP3quOyT9bJxxBWdVX2gsXwUXxgJZ+ZK0YFZyyjCNZYA6R9BtVrcjCLO6EdJh8fKMwIf621m3aUWKVZ1xohf/AmfiCBIqaPOf5fz8W5Its0OXQ505jKE/8P3O1DS+Yb0KzlLw58G+xQsqQpQdx4BUMTqFB3E26U5bPAfEpKX3/HrpP6CPpLDLxOtEDV1z6kt5xmxR7pqXUIIT4VMHqqqk1NlxsDqr4KkmQqF9nPTsECDQlK4MLwLmEUcjc="
+    secure: "NLsvOnzYaizspxpO4CUWKsQp8UWtcwO3XJMZz8Agew5/iZ2vLeWGaW2d88ClrTwP6XNt6Gya3EhdbhMNQb6XWlZ0gp/lbdYhQi9qILv3IjlMfif0ZXi/42gAT63a7+JMf6cNEB0gEapm9jRZ4RNXvPhP3KP9h5fRNilz8Zt4VkS/1cKmtVLrEFuGFCcOwMSLZV+oqAMDkQPqzk4SFzGF+pFHTTYUL0y7lY1uAIJrU2QvITcTcUQBLoRdPwhRjiEnN84Xdx2GuajjL1Gwws78wGEMWVF8XJcYuEaScpAKYtkFiA5bo9lUxz0GhGjxRXZLZATpHK91kRu5u4zWoHeyxY97hzxszrXxT2EsSNbf8+W11wYPkd/hk7wySCLCR8hLW9+uoc4Kk3stFW36C8b/vcJeflIjXKN/ojuQWOLzqqMc3to/Y+Jyz1MpDwcomctqWPBFHolkQDUCXaOvhe0uBS1LFiOsZYV4VkzE4wxCSo6a+Q/jlic6Tz1b/bx1p/fUEChJelexxlb/BWhkXnSM+xG4VPx0Ar7wjF82ikNquN1yYmFVQUwnqsgE24/VVoe82/zHqohYxA8E4qaZIY1JZQRKJpuskhZMsiGTsFfkN+6HpqCs4jBf2aivPlsoFq4CVc/HHbPAElmqKejSwj3BzYC1RAOyHsiSdx0BTGh7qiQ="
   skip_existing: true
+  on:
+    branch: master
