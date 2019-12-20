@@ -128,3 +128,24 @@ def test_service_not_register(services_manager: ServicesManager):
     services_manager.initialize()
     with pytest.raises(ServiceWasNotRegistered):
         services_manager.resolve(ServiceH)
+
+
+def test_bind_self_from_instance(services_manager: ServicesManager):
+    instance = ServiceH()
+    instance.value = 4
+    services_manager.bind_self_from_instance(instance)
+    services_manager.initialize()
+
+    resolved_service = services_manager.resolve(ServiceH)
+    assert type(resolved_service) is ServiceH
+    assert resolved_service.value == 4
+
+
+def test_bind_from_instance(services_manager: ServicesManager):
+    instance = ServiceH()
+    instance.value = 4
+    services_manager.bind_from_instance(IServiceH, instance)
+    services_manager.initialize()
+
+    resolved_service = services_manager.resolve(IServiceH)
+    assert resolved_service.value == 4

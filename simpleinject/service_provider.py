@@ -29,7 +29,10 @@ class ServicesManager(object):
     def __init__(self):
         self.services: Dict[type, ServiceWrapper] = {}
 
-    def add_from_instance(self, instance: object):
+    def bind_from_instance(self, interface: T, instance: Type[T]):
+        self.services[interface] = ServiceWrapper(interface, instance)
+
+    def bind_self_from_instance(self, instance: object):
         instance_type = type(instance)
         self.services[instance_type] = ServiceWrapper(instance_type, instance)
 
@@ -58,8 +61,9 @@ class ServicesManager(object):
 
     def _resolve_graph(self) -> NoReturn:
         for srv_type, srv in self.services.items():
-            srv.instance = Dummy()
-            self._instanciate_object(srv)
+            if not srv.instance:
+                srv.instance = Dummy()
+                self._instanciate_object(srv)
 
     def _instanciate_object(self, service: ServiceWrapper) -> NoReturn:
         dependencies: List[ServiceWrapper] = service.dependencies
