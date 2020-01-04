@@ -98,7 +98,7 @@ def test_retrieve_from_concrete_type(services_manager: ServicesManager):
 
     services_manager.initialize()
 
-    service: ServiceG = cast(ServiceG, services_manager.resolve(ServiceG))
+    service: ServiceG = services_manager.resolve(ServiceG)
 
     assert 1 == service.value
 
@@ -117,7 +117,7 @@ def test_retrieve_from_interface_type(services_manager: ServicesManager):
 
     services_manager.initialize()
 
-    service: ServiceH = cast(ServiceH, services_manager.resolve(IServiceH))
+    service: ServiceH = services_manager.resolve(IServiceH)
 
     assert 1 == service.value
 

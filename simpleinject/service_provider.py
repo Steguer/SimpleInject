@@ -44,7 +44,7 @@ class ServicesManager(object):
 
     def resolve(self, interface: T) -> T:
         services = self.services
-        if not interface in services:
+        if interface not in services:
             raise ServiceWasNotRegistered(interface)
 
         return services[interface].instance
