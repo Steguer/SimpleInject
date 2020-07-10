@@ -62,10 +62,10 @@ class ServicesManager(object):
     def _resolve_graph(self) -> NoReturn:
         for srv_type, srv in self.services.items():
             if not srv.instance:
-                srv.instance = Dummy()
                 self._instanciate_object(srv)
 
     def _instanciate_object(self, service: ServiceWrapper) -> NoReturn:
+        service.instance = Dummy()
         dependencies: List[ServiceWrapper] = service.dependencies
         if not dependencies:
             service.instance = service.service_type

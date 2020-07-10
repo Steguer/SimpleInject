@@ -78,6 +78,36 @@ def test_circular_dependency(services_manager: ServicesManager):
         services_manager.initialize()
 
 
+class Service1(object):
+    def __init__(self, f: ForwardRef("Service2")):
+        pass
+
+
+class Service2(object):
+    def __init__(self, e: ForwardRef("Service3")):
+        pass
+
+
+class Service3(object):
+    def __init__(self, e: ForwardRef("Service4")):
+        pass
+
+
+class Service4(object):
+    def __init__(self, e: Service2):
+        pass
+
+
+def test_circular_dependency_complex(services_manager: ServicesManager):
+    services_manager.bind_self(Service1)
+    services_manager.bind_self(Service2)
+    services_manager.bind_self(Service3)
+    services_manager.bind_self(Service4)
+
+    with pytest.raises(CircularReferenceError):
+        services_manager.initialize()
+
+
 class ServiceG(object):
     def __init__(self):
         self.value: int = 1
